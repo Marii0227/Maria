@@ -16,10 +16,14 @@ public class GameRunner {
     }
 
     public void run() {
-        runGame();
+        boolean nextGame = true;
+        while (nextGame) {
+            runGame();
+            nextGame = readNextGame();
+        }
     }
 
-    public void runGame() {
+    private void runGame() {
         DifficultyLevel level = readDifficultyLevel();
         board = new Board(level, wordsProvider.getWords(level.getNumberOfWords()));
         board.display();
@@ -28,7 +32,7 @@ public class GameRunner {
         }
     }
 
-    public void runRound() {
+    private void runRound() {
         Coordinates coordinates = readCoordinates();
         board.select(coordinates);
         coordinates = readCoordinates();
@@ -36,7 +40,7 @@ public class GameRunner {
         board.checkMatch();
     }
 
-    public Coordinates readCoordinates() {
+    private Coordinates readCoordinates() {
         Coordinates coordinates = null;
         Scanner in = new Scanner(System.in);
         while (coordinates == null) {
@@ -64,7 +68,7 @@ public class GameRunner {
         }
     }
 
-    public DifficultyLevel readDifficultyLevel() {
+    private DifficultyLevel readDifficultyLevel() {
         DifficultyLevel level = null;
         Scanner in = new Scanner(System.in);
         System.out.println("Select difficulty level.");
@@ -77,5 +81,11 @@ public class GameRunner {
             }
         }
         return level;
+    }
+
+    private boolean readNextGame() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Next game ? y/[N]:");
+        return "y".equals(in.nextLine());
     }
 }
