@@ -9,16 +9,16 @@ public class Box {
         this.word = word;
     }
 
+    public boolean isHidden(){
+        return !matched && !selected;
+    }
+
     public String getWord() {
         return word;
     }
 
     public boolean isMatched() {
         return matched;
-    }
-
-    public boolean isSelected() {
-        return selected;
     }
 
     public void setMatched(boolean matched) {

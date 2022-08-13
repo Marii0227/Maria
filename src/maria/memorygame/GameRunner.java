@@ -2,20 +2,69 @@ package maria.memorygame;
 
 import maria.memorygame.data.WordsProvider;
 import maria.memorygame.model.Board;
+import maria.memorygame.model.Coordinates;
 import maria.memorygame.model.DifficultyLevel;
 
 import java.util.Scanner;
 
 public class GameRunner {
+    private final WordsProvider wordsProvider = new WordsProvider();
+    private Board board;
+
     public static void main(String[] args) {
-        WordsProvider wordsProvider = new WordsProvider();
-//        DifficultyLevel level = readDifficultyLevel();
-        DifficultyLevel level = DifficultyLevel.EASY;
-        Board board = new Board(level, wordsProvider.getWords(level.getNumberOfWords()));
-        board.display();
+        new GameRunner().run();
     }
 
-    public static DifficultyLevel readDifficultyLevel() {
+    public void run() {
+        runGame();
+    }
+
+    public void runGame() {
+        DifficultyLevel level = readDifficultyLevel();
+        board = new Board(level, wordsProvider.getWords(level.getNumberOfWords()));
+        board.display();
+        while (board.isActive()) {
+            runRound();
+        }
+    }
+
+    public void runRound() {
+        Coordinates coordinates = readCoordinates();
+        board.select(coordinates);
+        coordinates = readCoordinates();
+        board.select(coordinates);
+        board.checkMatch();
+    }
+
+    public Coordinates readCoordinates() {
+        Coordinates coordinates = null;
+        Scanner in = new Scanner(System.in);
+        while (coordinates == null) {
+            System.out.println("Type coordinates to show:");
+            coordinates = Coordinates.parse(in.nextLine());
+            if (!isValidAndHidden(coordinates)) {
+                coordinates = null;
+            }
+        }
+        return coordinates;
+    }
+
+    private boolean isValidAndHidden(Coordinates coordinates) {
+        if (coordinates == null) {
+            System.out.println("Invalid coordinates. Please type uppercase letter and single digit (eg. B2)");
+            return false;
+        } else if (!board.isValid(coordinates)) {
+            System.out.println("Invalid coordinates.");
+            return false;
+        } else if (!board.isHidden(coordinates)) {
+            System.out.println("Selected world is already visible.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public DifficultyLevel readDifficultyLevel() {
         DifficultyLevel level = null;
         Scanner in = new Scanner(System.in);
         System.out.println("Select difficulty level.");
