@@ -1,12 +1,18 @@
 package maria.memorygame;
 
+import maria.memorygame.data.WordsProvider;
+import maria.memorygame.model.Board;
 import maria.memorygame.model.DifficultyLevel;
 
 import java.util.Scanner;
 
 public class GameRunner {
     public static void main(String[] args) {
-            DifficultyLevel level = readDifficultyLevel();
+        WordsProvider wordsProvider = new WordsProvider();
+//        DifficultyLevel level = readDifficultyLevel();
+        DifficultyLevel level = DifficultyLevel.EASY;
+        Board board = new Board(level, wordsProvider.getWords(level.getNumberOfWords()));
+        board.display();
     }
 
     public static DifficultyLevel readDifficultyLevel() {

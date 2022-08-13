@@ -21,4 +21,15 @@ public enum DifficultyLevel {
         }
         return null;
     }
+    public int getNumberOfWords() {
+        return numberOfWords;
+    }
+
+    public int getNumberOfChances() {
+        return numberOfChances;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

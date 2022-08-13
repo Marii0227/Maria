@@ -3,6 +3,7 @@ package maria.memorygame.data;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 public class WordsProvider {
@@ -18,7 +19,8 @@ public class WordsProvider {
         }
     }
 
-    public List<String> getWords() {
-        return words;
+    public List<String> getWords(int number) {
+        Collections.shuffle(words);
+        return words.subList(0, number);
     }
 }
